@@ -19,7 +19,7 @@ The generator does the following:
 - Copy templates for configurations
 - Generate tests from the spec (using oatts)
 
-Once the folder is generated, you can run `mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org} to run 
+Once the folder is generated, you can run `mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` to run 
 	- Static Code Analysis
 	- Unit test
 	- Code Coverage
