@@ -96,8 +96,6 @@ module.exports = class extends Generator {
       		['generateApi', `${this.answers.name}-${this.answers.version}`, 
       			'-s', this.answers.spec, '-d', this.answers.destination,
       			'-v', this.answers.virtualHost]);
-      	this.log('API Proxy bundle created!');
-
       	var dir = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/openapi`;
   		if (!fs.existsSync(dir)){
 		    fs.mkdirSync(dir);
@@ -249,5 +247,10 @@ module.exports = class extends Generator {
       			'--host', `api.acme.com${this.answers.basePath}`,
       			]);
       	this.log('Tests Generated');
+    }
+
+    print(){
+    	let absolutePath = path.resolve(`${this.answers.destination}/${this.answers.name}-${this.answers.version}`);
+    	this.log(`APIProxy created - ${absolutePath}`);
     }
 };
