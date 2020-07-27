@@ -85,7 +85,7 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'applyPolicies',
 				message: "Do you want to apply the global policies?",
-				initial: false
+				initial: true
 			}
 		]);
 	}
@@ -120,6 +120,15 @@ module.exports = class extends Generator {
 	        {}
 	     );
 	     this.fs.commit(()=>{});
+    }
+
+    setDescription(){
+    	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/${this.answers.name}-${this.answers.version}.xml`);
+    	let doc = new dom().parseFromString(srcDocument);
+        let nodes = xpath.select("/APIProxy/Description", doc);
+        nodes[0].textContent = "@description"; //will be used by pom to replace
+	    this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/${this.answers.name}-${this.answers.version}.xml`, doc.toString());
+	    this.fs.commit(()=>{});
     }
 
     setBasePath(){
