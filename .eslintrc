@@ -1,0 +1,16 @@
+{
+	"extends": [],
+	"rules": {
+		"brace-style": [2, "1tbs", { "allowSingleLine": true }],
+		"object-shorthand": 0,
+		"spaced-comment": 0,
+		"no-undef": 0
+	},
+	"parserOptions": {
+		"ecmaVersion": 2017,
+		"sourceType": "module"
+	},
+	"env": {
+		"node": true
+	}
+}
