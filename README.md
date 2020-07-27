@@ -9,8 +9,8 @@ An Apigee Proxy Yeoman generator
 This should install a new yo generator called "Apigee Proxy"
 
 - Run `yo apigee-proxy` on your terminal to start the prompt
-- Provide the details required
-- After the generator is executed, the Proxy created with all configurations, tests and build scripts
+- Provide the details prompted
+- After the generator is executed, the Proxy is created with all configurations, tests and build scripts
 
 The generator does the following:
 - Generate proxy from the spec (using openapi2apigee)
@@ -19,7 +19,9 @@ The generator does the following:
 - Copy templates for configurations
 - Generate tests from the spec (using oatts)
 
-Once the folder is generated, you can run `mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` to run 
+Once the folder is generated, you can run 
+`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
+	
 	- Static Code Analysis
 	- Unit test
 	- Code Coverage
