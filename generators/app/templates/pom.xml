@@ -322,9 +322,9 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>./node_modules/cucumber/bin/cucumber.js</executable>
+							<executable>node</executable>
 							<commandlineArgs>
-								target/tests/integration/features --tags ${api.testtag} --format json:target/reports.json
+								./node_modules/cucumber/bin/cucumber-js target/tests/integration/features --tags ${api.testtag} --format json:target/reports.json
 							</commandlineArgs>
 						</configuration>
 					</execution>
