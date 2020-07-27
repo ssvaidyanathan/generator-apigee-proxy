@@ -1,0 +1,32 @@
+{
+	"name": "generator-apigee-proxy",
+	"version": "1.0.0-alpha.0",
+	"description": "Proxy generator for Apigee Edge",
+	"main": "./generators/app/index.js",
+	"scripts": {},
+	"bin": "./bin/apigee-proxy-generator",
+	"files": [
+		"generators"
+	],
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"author": "Sai Saran Vaidyanathan",
+	"keywords": [
+		"yeoman-generator",
+		"apigee"
+	],
+	"license": "Apache-2.0",
+	"dependencies": {
+		"fs-extra": "^9.0.1",
+		"openapi2apigee": "^0.6.2",
+		"xml-formatter": "^2.1.3",
+		"xml2js": "^0.4.23",
+		"xmldom": "^0.3.0",
+		"xpath": "0.0.27",
+		"yeoman-generator": "^4.11.0",
+		"yeoman-option-or-prompt": "^2.0.1",
+		"oatts": "^1.6.0"
+	}
+}

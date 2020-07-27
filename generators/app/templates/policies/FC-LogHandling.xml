@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<FlowCallout async="false" continueOnError="false" enabled="true" name="FC-LogHandling">
+    <DisplayName>FC-LogHandling</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <SharedFlowBundle>SF-LogHandler-v1</SharedFlowBundle>
+</FlowCallout>

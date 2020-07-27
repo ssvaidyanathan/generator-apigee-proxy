@@ -1,0 +1,5 @@
+reports.json
+target/
+node_modules
+apiproxy/manifests
+.DS_Store/

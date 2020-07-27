@@ -1,0 +1,24 @@
+{
+	"name": "apigee-<%= name %>-<%= version %>",
+	"version": "1.0.0",
+	"version": "1.0.0",
+	"devDependencies": {
+		"apickli": "^2.3.3",
+		"apigeelint": "^0.4.6",
+		"cucumber": "^6.0.5",
+		"prettyjson": "^1.2.1",
+		"xml2js": "^0.4.23",
+		"chakram": "^1.5.0",
+		"mocha": "^8.0.1",
+		"oatts": "^1.6.0",
+		"chai": "^4.2.0",
+		"chai-fuzzy": "^1.6.1",
+		"istanbul": "^0.4.5",
+		"sinon": "^9.0.2"
+	},
+	"scripts": {
+		"lint": "apigeelint -s apiproxy -f table.js",
+		"test": "oatts generate -s ./openapi/openapi.json --host api.acme.com --scheme https -w ./tests/integration && mocha --recursive ./tests/integration"
+	}
+}
+ 

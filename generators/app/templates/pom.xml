@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>apigee</groupId>
+	<artifactId><%= name %></artifactId>
+	<version><%= version %></version>
+	<name><%= name %>-${deployment.suffix}<%= version %></name>
+	<packaging>pom</packaging>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>https://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
+		<project.root.dir>${basedir}</project.root.dir>
+		<target.root.dir>${basedir}/target</target.root.dir>
+		<deployment.suffix>${user.name}</deployment.suffix>
+		<commit></commit>
+		<branch>a local</branch>
+	</properties>
+
+	<!-- This is where you add the environment specific properties under various profile names -->
+	<!-- For apigee.options, refer to "Advanced Configuration Options" under https://github.com/apigee/apigee-deploy-maven-plugin#pom-xml-sample -->
+	<profiles>
+		<profile>
+			<id>test</id>
+			<properties>
+				<apigee.profile>test</apigee.profile>
+				<apigee.env>test</apigee.env>
+				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion>
+				<apigee.org>${org}</apigee.org>
+				<apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+				<apigee.tokenurl>https://login.apigee.com/oauth/token</apigee.tokenurl> <!-- update to https://zoneName.login.apigee.com/oauth/token -->
+				<apigee.username>${username}</apigee.username> <!-- machine user -->
+				<apigee.password>${password}</apigee.password> <!-- machine password -->
+				<apigee.options>update</apigee.options>
+				<apigee.config.dir>./resources/edge</apigee.config.dir> <!-- For config plugin -->
+				<apigee.config.options>update</apigee.config.options> <!-- For config plugin -->
+				<api.northbound.domain>${org}-test.apigee.net</api.northbound.domain>
+				<api.testtag>~@wip</api.testtag>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<apigee.profile>prod</apigee.profile>
+				<apigee.env>prod</apigee.env>
+				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion>
+				<apigee.org>${org}</apigee.org>
+				<apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
+				<apigee.tokenurl>https://login.apigee.com/oauth/token</apigee.tokenurl> <!-- update to https://zoneName.login.apigee.com/oauth/token -->
+				<apigee.username>${username}</apigee.username> <!-- machine user -->
+				<apigee.password>${password}</apigee.password> <!-- machine password -->
+				<apigee.options>override</apigee.options>
+				<apigee.config.dir>./resources/edge</apigee.config.dir> <!-- For config plugin -->
+				<apigee.config.options>update</apigee.config.options> <!-- For config plugin -->
+				<apigee.override.delay>5</apigee.override.delay>
+				<api.northbound.domain>${org}-test.apigee.net</api.northbound.domain>
+				<api.testtag>~@wip,~@mock</api.testtag>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.apigee.build-tools.enterprise4g</groupId>
+					<artifactId>apigee-edge-maven-plugin</artifactId>
+					<version>1.2.2</version>
+				</plugin>
+				<plugin>
+					 <groupId>com.apigee.edge.config</groupId>
+			    		<artifactId>apigee-config-maven-plugin</artifactId>
+					<version>1.4.3</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<!-- run jslint -->
+			<plugin>
+				<groupId>com.cj.jshintmojo</groupId>
+				<artifactId>jshint-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>jslint</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>lint</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<version>2.4.3</version>
+					<directories>
+						<directory>apiproxy/resources/jsc</directory>
+					</directories>
+					<reporter>checkstyle</reporter>
+					<reportFile>target/jshint.html</reportFile>
+				</configuration>
+			</plugin>
+
+			<!-- copy the full apiproxy folder to target folder -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<!--source -->
+									<directory>${project.root.dir}</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>apiproxy/**</include>
+										<include>tests/integration/**</include>
+										<include>tests/dev-integration/**</include>
+									</includes>
+								</resource>
+							</resources>
+							<!--target -->
+							<outputDirectory>${target.root.dir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<basedir>${target.root.dir}</basedir>
+					<includes>
+						<include>apiproxy/proxies/default.xml</include>
+						<include>apiproxy/<%= name %>-<%= version %>.xml</include>
+						<include>tests/dev-integration/**.js</include>
+					</includes>
+					<replacements>
+						<replacement>
+							<token><%= basePath %></token>
+							<value><%= basePath %>${deployment.suffix}</value>
+						</replacement>
+						<replacement>
+							<token>@description</token>
+							<value>commit ${commit} from ${branch} branch. Deployed by ${user.name}</value>
+						</replacement>
+						<replacement>
+							<token>api.acme.com</token>
+							<value>${api.northbound.domain}</value>
+						</replacement>
+					</replacements>
+				</configuration>
+			</plugin>
+
+			<plugin>
+			    <groupId>com.apigee.edge.config</groupId>
+			    <artifactId>apigee-config-maven-plugin</artifactId>
+			    <version>1.4.3</version>
+			    <executions>
+			        <execution>
+			            <id>create-config-kvm</id>
+			            <phase>package</phase>                        
+			            <goals>
+			                <goal>keyvaluemaps</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>create-config-targetservers</id>
+			            <phase>package</phase>                        
+			            <goals>
+			                <goal>targetservers</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+                        <id>create-config-cache</id>
+                        <phase>package</phase>                        
+                        <goals>
+                            <goal>caches</goal>
+                        </goals>
+                    </execution>
+			    </executions>
+			</plugin> 
+
+			<plugin>
+				<groupId>io.apigee.build-tools.enterprise4g</groupId>
+				<artifactId>apigee-edge-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<executions>
+					<execution>
+						<id>configure-bundle-step</id>
+						<phase>package</phase>
+						<goals>
+							<goal>configure</goal>
+						</goals>
+					</execution>
+					<!--deploy bundle -->
+					<execution>
+						<id>deploy-bundle-step</id>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<executions>
+					<!-- npm install -->
+					<execution>
+						<id>npm-install</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>npm</executable>
+							<commandlineArgs>
+								install
+							</commandlineArgs>
+						</configuration>
+					</execution>
+					<!-- apigeelint -->
+					<execution>
+						<id>apigeelint</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>node</executable>
+							<commandlineArgs>
+								node_modules/apigeelint/cli.js -s . -f table.js
+							</commandlineArgs>
+						</configuration>
+					</execution>
+					<!-- run unit tests 
+					<execution>
+						<id>unit</id>
+						<phase>test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>node</executable>
+							<commandlineArgs>
+								node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha tests/unit
+							</commandlineArgs>
+						</configuration>
+					</execution> -->
+					<!-- Check Code Coverage 
+					<execution>
+						<id>check-coverage</id>
+						<phase>test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>node</executable>
+							<commandlineArgs>
+								node_modules/istanbul/lib/cli.js check-coverage
+							</commandlineArgs>
+						</configuration>
+					</execution> -->
+					<!-- run dev integration tests -->
+					<execution>
+						<id>dev-integration</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>node</executable>
+							<commandlineArgs>
+								node_modules/mocha/bin/_mocha --recursive ./target/tests/dev-integration
+							</commandlineArgs>
+						</configuration>
+					</execution>
+					<!-- run integration tests -->
+					<execution>
+						<id>integration</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>./node_modules/cucumber/bin/cucumber.js</executable>
+							<commandlineArgs>
+								target/tests/integration/features --tags ${api.testtag} --format json:target/reports.json
+							</commandlineArgs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
