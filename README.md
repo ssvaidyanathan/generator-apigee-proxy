@@ -20,11 +20,11 @@ The generator does the following:
 - Generate tests from the spec (using oatts)
 
 Once the folder is generated, you can run 
-`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
+>`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
 	
-	- Static Code Analysis
-	- Unit test
-	- Code Coverage
-	- Push configurations (KVM, Cache, Target Server, etc)
-	- Package and Deploy Proxy bundle
-	- Run integration tests
+- Static Code Analysis
+- Unit test
+- Code Coverage
+- Push configurations (KVM, Cache, Target Server, etc)
+- Package and Deploy Proxy bundle
+- Run integration tests
