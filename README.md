@@ -1,6 +1,17 @@
 # generator-apigee-proxy
 An Apigee Proxy Yeoman generator
 
+## License
+
+This code is Copyright (c) 2017-2020 Google LLC, and is released under the
+Apache Source License v2.0. For information see the [LICENSE](LICENSE) file.
+
+## Disclaimer
+
+This example is not an official Google product, nor is it part of an official Google product.
+
+## Using the generator
+
 - Install yeoman-generator `sudo npm install -g yo`
 - Clone this repo `git clone https://github.com/ssvaidyanathan/generator-apigee-proxy.git`
 - Execute `npm install`
