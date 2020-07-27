@@ -22,6 +22,7 @@ The generator does the following:
 Once the folder is generated, you can run 
 >`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
 	
+It executes the following: 
 - Static Code Analysis
 - Unit test
 - Code Coverage
