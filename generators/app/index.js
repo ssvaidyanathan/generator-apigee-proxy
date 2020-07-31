@@ -223,12 +223,23 @@ module.exports = class extends Generator {
 	  	fs.readFile(filePath, function(err, data) {
 	  		parser.parseString(data, function (err, result) {
 	  			//Add FC-Security to Preflow - Request
-	  			result.ProxyEndpoint.PreFlow[0].Request[0] = {"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}};
-	  			//Add FC-LogHandling to Postflow - Response
-	  			result.ProxyEndpoint.PostFlow[0].Response[0] = {"Step":{"Name": "FC-LogHandling"}};
-	  			//Add FC-FaultHandling to FaultRules
-	  			result.ProxyEndpoint.FaultRules = {};
-	  			result.ProxyEndpoint.DefaultFaultRule = {"$":{"name":"all"},"AlwaysEnforce":true,"Step":{"Name":"FC-FaultHandling"}};
+				result.ProxyEndpoint.PreFlow[0].Request[0] = {"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}};
+				//Add FC-LogHandling to Postflow - Response
+				result.ProxyEndpoint.PostFlow[0].Response[0] = {"Step":{"Name": "FC-LogHandling"}};
+				//Add FC-FaultHandling to FaultRules
+				result.ProxyEndpoint.FaultRules = {};
+				result.ProxyEndpoint.DefaultFaultRule = {"$":{"name":"all"},"AlwaysEnforce":true,"Step":{"Name":"FC-FaultHandling"}};
+				//Add CORS Flow
+				let corsStep = {"$":{"name":"CORS"},"Description":["ignore OPTIONS request"], "Request":[""], "Response":[""], "Condition":["(proxy.pathsuffix MatchesPath \"/**\") and (request.verb = \"OPTIONS\")"]};
+				result.ProxyEndpoint.Flows[0].Flow.push(corsStep);
+				//Add Catch-All Flow
+				let catchAllStep = {"$":{"name":"catch-all"},"Description":["Catch any unmatched calls and raise fault (must be the last flow)"], "Request":[{"Step":{"Name":"RF-PathNotFound"}}],"Response":[""], "Condition":["(proxy.pathsuffix MatchesPath \"/**\")"]};
+				result.ProxyEndpoint.Flows[0].Flow.push(catchAllStep);
+				//Add NoRoute Rule
+				let defaultRule = result.ProxyEndpoint.RouteRule[0];
+				let noRouteRule = { "$": { name: "cors" }, Condition:[ "(request.verb == \"OPTIONS\")"]};
+				result.ProxyEndpoint.RouteRule = [noRouteRule, defaultRule];
+
 	  			let xml = builder.buildObject(result);
 	  			fs.writeFile(filePath, xml, function(err, data){
 		            if (err) console.log(err);
