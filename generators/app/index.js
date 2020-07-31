@@ -204,6 +204,16 @@ module.exports = class extends Generator {
 	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/.istanbul.yml`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
+	     this.fs.copyTpl(
+	        this.templatePath('Jenkinsfile'),
+	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/Jenkinsfile`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
+	     this.fs.copyTpl(
+	        this.templatePath('Dockerfile'),
+	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/Dockerfile`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
 	     this.fs.commit(()=>{});
     }
 
