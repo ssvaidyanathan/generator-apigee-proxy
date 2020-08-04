@@ -188,6 +188,29 @@
 			</plugin>
 
 			<plugin>
+				<groupId>io.apigee.build-tools.enterprise4g</groupId>
+				<artifactId>apigee-edge-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<executions>
+					<execution>
+						<id>configure-bundle-step</id>
+						<phase>package</phase>
+						<goals>
+							<goal>configure</goal>
+						</goals>
+					</execution>
+					<!--deploy bundle -->
+					<execution>
+						<id>deploy-bundle-step</id>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 			    <groupId>com.apigee.edge.config</groupId>
 			    <artifactId>apigee-config-maven-plugin</artifactId>
 			    <version>1.4.3</version>
@@ -213,31 +236,29 @@
                             <goal>caches</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>create-config-apiproducts</id>
+                        <phase>install</phase>                        
+                        <goals>
+                            <goal>apiproducts</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-config-developers</id>
+                        <phase>install</phase>                        
+                        <goals>
+                            <goal>developers</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-config-apps</id>
+                        <phase>install</phase>                        
+                        <goals>
+                            <goal>apps</goal>
+                        </goals>
+                    </execution>
 			    </executions>
 			</plugin> 
-
-			<plugin>
-				<groupId>io.apigee.build-tools.enterprise4g</groupId>
-				<artifactId>apigee-edge-maven-plugin</artifactId>
-				<version>1.2.2</version>
-				<executions>
-					<execution>
-						<id>configure-bundle-step</id>
-						<phase>package</phase>
-						<goals>
-							<goal>configure</goal>
-						</goals>
-					</execution>
-					<!--deploy bundle -->
-					<execution>
-						<id>deploy-bundle-step</id>
-						<phase>install</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
