@@ -12,7 +12,7 @@ This example is not an official Google product, nor is it part of an official Go
 
 ## Using the generator
 
-- Install yeoman-generator `sudo npm install -g yo`
+- Install dependencies `sudo npm install -g yo openapi2apigee oatts`
 - Clone this repo `git clone https://github.com/ssvaidyanathan/generator-apigee-proxy.git`
 - Execute `npm install`
 - Execute `sudo npm install . -g`

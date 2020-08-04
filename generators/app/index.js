@@ -12,7 +12,6 @@ const xmlFormatter = require('xml-formatter');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ explicitArray: true });
 const builder = new xml2js.Builder();
-const oatts = require('oatts');
 const swaggerParseFn = util.promisify(swaggerParser.parse.bind(swaggerParser))
 
 const validators = require('./validators.js');
