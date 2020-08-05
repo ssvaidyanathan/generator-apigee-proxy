@@ -34,6 +34,7 @@ The generator does the following:
 
 Current configuration structure only contains `test` and `prod` environments. Please update this to your Apigee environments and include the appropriate config files. You can refer to the [plugin samples](https://github.com/apigee/apigee-config-maven-plugin/tree/master/samples/EdgeConfig/resources) for more details on the structure
 
+### Execution
 
 Once the folder is generated, you can run 
 >`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
@@ -45,3 +46,5 @@ It executes the following:
 - Push configurations (KVM, Cache, Target Server, etc)
 - Package and Deploy Proxy bundle
 - Run integration tests
+
+Please update the pom profiles and any other configuration in the template pom.xml to your needs
