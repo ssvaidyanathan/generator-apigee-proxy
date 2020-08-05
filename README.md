@@ -30,6 +30,11 @@ The generator does the following:
 - Copy templates for configurations
 - Generate tests from the spec (using oatts)
 
+### Configurations
+
+Current configuration structure only contains `test` and `prod` environments. Please update this to your Apigee environments and include the appropriate config files. You can refer to the [plugin samples](https://github.com/apigee/apigee-config-maven-plugin/tree/master/samples/EdgeConfig/resources) for more details on the structure
+
+
 Once the folder is generated, you can run 
 >`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
 	
