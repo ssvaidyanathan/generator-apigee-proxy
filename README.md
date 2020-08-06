@@ -20,6 +20,7 @@ This example is not an official Google product, nor is it part of an official Go
 
 - Install dependencies `sudo npm install -g yo openapi2apigee oatts`
 - Clone this repo `git clone https://github.com/ssvaidyanathan/generator-apigee-proxy.git`
+- `cd generator-apigee-proxy`
 - Execute `npm install`
 - Execute `sudo npm install . -g`
 
