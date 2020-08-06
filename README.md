@@ -12,7 +12,7 @@ This example is not an official Google product, nor is it part of an official Go
 
 ## Pre-reqisites
 
-- NodeJS (10.x or later)
+- Node.js (10.x or later)
 - Maven (3.x or later)
 - Java (8 or later)
 
