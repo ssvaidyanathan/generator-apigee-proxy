@@ -39,7 +39,7 @@ The generator does the following:
 	- RF-PathNotFound to handle catch-all flows to return a 404 not found
 - update Basepath, Description, Virtual host, Target server
 - Copy templates for configurations
-- Generate tests from the spec (using oatts). Please note that these auto-generated tests will need to be modified to pass.
+- Generate tests from the spec using [oatts](https://www.npmjs.com/package/oatts). Please note that these auto-generated tests will need to be modified to pass.
 
 ### Configurations
 
