@@ -26,9 +26,10 @@ This should install a new yo generator called "Apigee Proxy"
 The generator does the following:
 - Generate proxy from the spec (using openapi2apigee)
 - Apply global policies (optional)
+	- FC-Security policy is set to false
 - update Basepath, Description, Virtual host, Target server
 - Copy templates for configurations
-- Generate tests from the spec (using oatts)
+- Generate tests from the spec (using oatts). Please note that these auto-generated tests will need to be modified to pass.
 
 ### Configurations
 
@@ -48,3 +49,9 @@ It executes the following:
 - Run integration tests
 
 Please update the pom profiles and any other configuration in the template pom.xml to your needs
+
+### Shared Flows
+
+The tool adds flow callout policies for Security, Logging, Error Handling and Catch all. For these existing Flow Callout policies to work, please update the Flow Callout policy templates to point to your corresponding Shared flows or else deploy it from the [sharedflows](./sharedflows) directory.
+
+

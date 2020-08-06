@@ -2,12 +2,26 @@
 <RaiseFault async="false" continueOnError="false" enabled="true" name="RF-PathNotFound">
     <DisplayName>RF-PathNotFound</DisplayName>
     <FaultResponse>
-        <Set>
-            <Headers/>
-            <Payload contentType="text/plain">Resource not found at {proxy.pathsuffix}</Payload>
-            <StatusCode>404</StatusCode>
-            <ReasonPhrase>Not Found</ReasonPhrase>
-        </Set>
+        <AssignVariable>
+            <Name>flow.error.code</Name>
+            <Value>404</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>flow.error.message</Name>
+            <Value>Not Found</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>flow.error.info</Name>
+            <Value>https://docs.example.com</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>flow.error.status</Name>
+            <Value>404</Value>
+        </AssignVariable>
+        <AssignVariable>
+            <Name>flow.error.reason</Name>
+            <Value>Not Found</Value>
+        </AssignVariable>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
 </RaiseFault>
