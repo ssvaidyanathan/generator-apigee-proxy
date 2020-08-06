@@ -10,7 +10,7 @@ Apache Source License v2.0. For information see the [LICENSE](LICENSE) file.
 
 This example is not an official Google product, nor is it part of an official Google product.
 
-## Pre-reqisites
+## Pre-requisites
 
 - Node.js (10.x or later)
 - Maven (3.x or later)
