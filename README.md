@@ -31,9 +31,12 @@ This should install a new yo generator called "Apigee Proxy"
 - After the generator is executed, the Proxy is created with all configurations, tests and build scripts
 
 The generator does the following:
-- Generate proxy from the spec (using openapi2apigee)
+- Generate proxy from the spec using [openapi2apigee](https://www.npmjs.com/package/openapi2apigee)
 - Apply global policies (optional)
-	- FC-Security policy is set to false (will be skipped)
+	- FC-Security policy to call the Security sharedflow. This is set to false (will be skipped)
+	- FC-LogHandling policy to generate log object to push to your logging servers
+	- FC-FaultHanding policy to handle errors and exceptions
+	- RF-PathNotFound to handle catch-all flows to return a 404 not found
 - update Basepath, Description, Virtual host, Target server
 - Copy templates for configurations
 - Generate tests from the spec (using oatts). Please note that these auto-generated tests will need to be modified to pass.
