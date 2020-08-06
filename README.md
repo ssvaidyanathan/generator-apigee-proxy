@@ -26,7 +26,7 @@ This should install a new yo generator called "Apigee Proxy"
 The generator does the following:
 - Generate proxy from the spec (using openapi2apigee)
 - Apply global policies (optional)
-	- FC-Security policy is set to false
+	- FC-Security policy is set to false (will be skipped)
 - update Basepath, Description, Virtual host, Target server
 - Copy templates for configurations
 - Generate tests from the spec (using oatts). Please note that these auto-generated tests will need to be modified to pass.
