@@ -113,7 +113,7 @@ module.exports = class extends Generator {
     		return;
 	     this.fs.copyTpl(
 	        this.templatePath('policies'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/apiproxy/policies`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/policies`),
 	        {}
 	     );
 	     this.fs.commit(()=>{});
@@ -168,7 +168,7 @@ module.exports = class extends Generator {
     copyConfigResources(){
 	     this.fs.copyTpl(
 	        this.templatePath('resources'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/resources`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/resources`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.commit(()=>{});
@@ -177,7 +177,7 @@ module.exports = class extends Generator {
     copyTestTemplate(){
 	     this.fs.copyTpl(
 	        this.templatePath('tests'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/tests`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/tests`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.commit(()=>{});
@@ -186,7 +186,7 @@ module.exports = class extends Generator {
     copyPomTemplate(){
 	     this.fs.copyTpl(
 	        this.templatePath('pom.xml'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/pom.xml`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/pom.xml`),
 	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath}
 	     );
 	     this.fs.commit(()=>{});
@@ -195,22 +195,22 @@ module.exports = class extends Generator {
     copyOtherTemplates(){
 	     this.fs.copyTpl(
 	        this.templatePath('gitignore.txt'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/.gitignore`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.gitignore`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.copyTpl(
 	        this.templatePath('.istanbul.yml'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/.istanbul.yml`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.istanbul.yml`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.copyTpl(
 	        this.templatePath('Jenkinsfile'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/Jenkinsfile`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Jenkinsfile`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.copyTpl(
 	        this.templatePath('Dockerfile'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/Dockerfile`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Dockerfile`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.commit(()=>{});
@@ -219,7 +219,7 @@ module.exports = class extends Generator {
     copyPackageJsonTemplate(){
 	     this.fs.copyTpl(
 	        this.templatePath('packagejson.txt'),
-	        this.destinationPath(`./${this.answers.name}-${this.answers.version}/package.json`),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/package.json`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.commit(()=>{});
