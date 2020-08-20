@@ -31,9 +31,11 @@ This should install a new yo generator called "Apigee Proxy"
 - After the generator is executed, the Proxy is created with all configurations, tests and build scripts
 
 To run the non-interactive mode, just run
+
 ``` yo apigee-proxy ${name} ${version} ${basepath} ${virtualhost} ${targetServer} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}```
 
 For example
+
 ``` yo apigee-proxy MockTarget v1 /v1/mock secure TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true ```
 
 
