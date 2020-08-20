@@ -30,7 +30,7 @@ This should install a new yo generator called "Apigee Proxy"
 - Provide the details prompted
 - After the generator is executed, the Proxy is created with all configurations, tests and build scripts
 
-To run the non-interactive mode, just run
+To run in non-interactive mode, just run
 
 ``` 
 yo apigee-proxy ${name} ${version} ${basepath} ${virtualhost} ${targetServer} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}
