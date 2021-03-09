@@ -16,7 +16,7 @@ const swaggerParseFn = util.promisify(swaggerParser.parse.bind(swaggerParser))
 
 const validators = require('./validators.js');
 
-//yo apigee-proxy MockTarget v1 /v1/mock secure TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true
+//yo apigee-proxy MockTarget v1 /v1/mock secure TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget3.0.yaml . true
 
 module.exports = class extends Generator {
 	// note: arguments and options should be defined in the constructor.
@@ -25,7 +25,7 @@ module.exports = class extends Generator {
 	   this.argument("name", { type: String, required: false });
 	   this.argument("version", { type: String, required: false });
 	   this.argument("basePath", { type: String, required: false });
-	   this.argument("virtualHost", { type: String, required: false });
+	   this.argument("northboundDomain", { type: String, required: false });
 	   this.argument("targetServer", { type: String, required: false });
 	   this.argument("spec", { type: String, required: false });
 	   this.argument("destination", { type: String, required: false });
@@ -57,9 +57,10 @@ module.exports = class extends Generator {
 			},
 			{
 				type: 'input',
-				name: 'virtualHost',
-				message: "What is your proxy's virtualHost? (comma separated)",
-				default: 'default,secure'
+				name: 'northboundDomain',
+				message: "What is your proxy's northboundDomain, for ex api.acme.com?",
+				default: 'api.acme.com',
+				validate: validators.northboundDomain
 			},
 			{
 				type: 'input',
@@ -71,7 +72,7 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'spec',
 				message: "Please provide the path of your spec",
-				default: 'https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml',
+				default: 'https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget3.0.yaml',
 				validate: validators.spec
 			},
 			{
@@ -102,6 +103,11 @@ module.exports = class extends Generator {
       	let api = await swaggerParseFn(this.answers.spec);
       	var filepath = `${dir}/openapi.json`;
       	fs.writeFileSync(filepath, JSON.stringify(api, undefined, 2)); 
+      	var openapiResourceDir = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/resources/oas`;
+  		if (!fs.existsSync(openapiResourceDir)){
+		    fs.mkdirSync(openapiResourceDir, { recursive: true });
+		}
+		fs.writeFileSync(`${openapiResourceDir}/openapi.json`, JSON.stringify(api, undefined, 2)); 
     }
 
     deleteZipFile(){
@@ -187,12 +193,22 @@ module.exports = class extends Generator {
 	     this.fs.copyTpl(
 	        this.templatePath('pom.xml'),
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/pom.xml`),
-	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath}
+	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath, northboundDomain: this.answers.northboundDomain}
+	     );
+	     this.fs.copyTpl(
+	        this.templatePath('cloudbuild-pom.xml'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild-pom.xml`),
+	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath, northboundDomain: this.answers.northboundDomain}
 	     );
 	     this.fs.commit(()=>{});
     }
 
     copyOtherTemplates(){
+    	this.fs.copyTpl(
+	        this.templatePath('cloudbuild.yaml'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild.yaml`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
 	     this.fs.copyTpl(
 	        this.templatePath('gitignore.txt'),
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.gitignore`),
@@ -231,8 +247,8 @@ module.exports = class extends Generator {
     	var filePath = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`;
 	  	fs.readFile(filePath, function(err, data) {
 	  		parser.parseString(data, function (err, result) {
-	  			//Add FC-Security to Preflow - Request
-				result.ProxyEndpoint.PreFlow[0].Request[0] = {"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}};
+	  			//Add FC-Security and OAS-Validation to Preflow - Request
+				result.ProxyEndpoint.PreFlow[0].Request[0] = [{"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}}, {"Step":{"Name": "OAS-Validation", "Condition":["request.verb != \"OPTIONS\""]}}];
 				//Add FC-LogHandling to Postflow - Response
 				result.ProxyEndpoint.PostFlow[0].Response[0] = {"Step":{"Name": "FC-LogHandling"}};
 				//Add FC-FaultHandling to FaultRules

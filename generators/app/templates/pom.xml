@@ -41,17 +41,15 @@
 			<properties>
 				<apigee.profile>test</apigee.profile>
 				<apigee.env>test</apigee.env>
-				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
-				<apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
-				<apigee.tokenurl>https://login.apigee.com/oauth/token</apigee.tokenurl> <!-- update to https://zoneName.login.apigee.com/oauth/token -->
-				<apigee.username>${username}</apigee.username> <!-- machine user -->
-				<apigee.password>${password}</apigee.password> <!-- machine password -->
-				<apigee.options>update</apigee.options>
-				<apigee.config.dir>./resources/edge</apigee.config.dir> <!-- For config plugin -->
-				<apigee.config.options>update</apigee.config.options> <!-- For config plugin -->
-				<api.northbound.domain>${org}-test.apigee.net</api.northbound.domain>
+				<apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
+				<apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
+				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+				<apigee.config.options>update</apigee.config.options>
+				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
+				<api.northbound.domain><%= northboundDomain %></api.northbound.domain>
 				<api.testtag>~@wip</api.testtag>
 			</properties>
 		</profile>
@@ -60,18 +58,15 @@
 			<properties>
 				<apigee.profile>prod</apigee.profile>
 				<apigee.env>prod</apigee.env>
-				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
-				<apigee.authtype>oauth</apigee.authtype> <!-- optional: oauth|basic(default) -->
-				<apigee.tokenurl>https://login.apigee.com/oauth/token</apigee.tokenurl> <!-- update to https://zoneName.login.apigee.com/oauth/token -->
-				<apigee.username>${username}</apigee.username> <!-- machine user -->
-				<apigee.password>${password}</apigee.password> <!-- machine password -->
-				<apigee.options>override</apigee.options>
-				<apigee.config.dir>./resources/edge</apigee.config.dir> <!-- For config plugin -->
-				<apigee.config.options>update</apigee.config.options> <!-- For config plugin -->
-				<apigee.override.delay>5</apigee.override.delay>
-				<api.northbound.domain>${org}-test.apigee.net</api.northbound.domain>
+				<apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
+				<apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
+				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+				<apigee.config.options>update</apigee.config.options>
+				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
+				<api.northbound.domain><%= northboundDomain %></api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
@@ -83,12 +78,12 @@
 				<plugin>
 					<groupId>io.apigee.build-tools.enterprise4g</groupId>
 					<artifactId>apigee-edge-maven-plugin</artifactId>
-					<version>1.2.2</version>
+					<version>2.1.0</version>
 				</plugin>
 				<plugin>
-					 <groupId>com.apigee.edge.config</groupId>
-			    		<artifactId>apigee-config-maven-plugin</artifactId>
-					<version>1.4.3</version>
+					<groupId>com.apigee.edge.config</groupId>
+			    	<artifactId>apigee-config-maven-plugin</artifactId>
+					<version>2.1.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -181,7 +176,7 @@
 						</replacement>
 						<replacement>
 							<token>api.acme.com</token>
-							<value>${api.northbound.domain}</value>
+							<value><%= northboundDomain %></value>
 						</replacement>
 					</replacements>
 				</configuration>
@@ -190,7 +185,7 @@
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
 				<artifactId>apigee-edge-maven-plugin</artifactId>
-				<version>1.2.2</version>
+				<version>2.1.0</version>
 				<executions>
 					<execution>
 						<id>configure-bundle-step</id>
@@ -213,7 +208,7 @@
 			<plugin>
 			    <groupId>com.apigee.edge.config</groupId>
 			    <artifactId>apigee-config-maven-plugin</artifactId>
-			    <version>1.4.3</version>
+			    <version>2.1.0</version>
 			    <executions>
 			        <execution>
 			            <id>create-config-kvm</id>
