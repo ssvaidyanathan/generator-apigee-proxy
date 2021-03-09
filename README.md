@@ -18,6 +18,8 @@ This example is not an official Google product, nor is it part of an official Go
 
 ## Using the generator
 
+NOTE: Please checkout the "cgsaas" branch if you want to test this generator with OPDK or Apigee SaaS. The master branch is for Apigee X and Apigee hybrid
+
 - Install dependencies `sudo npm install -g yo openapi2apigee oatts`
 - Clone this repo `git clone https://github.com/ssvaidyanathan/generator-apigee-proxy.git`
 - `cd generator-apigee-proxy`
@@ -33,13 +35,13 @@ This should install a new yo generator called "Apigee Proxy"
 To run in non-interactive mode:
 
 ``` 
-yo apigee-proxy ${name} ${version} ${basepath} ${virtualhost} ${targetServer} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}
+yo apigee-proxy ${name} ${version} ${basepath} ${northboundDomain} ${targetServer} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}
 ```
 
 For example
 
 ``` 
-yo apigee-proxy MockTarget v1 /v1/mock secure TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true 
+yo apigee-proxy MockTarget v1 /v1/mock api-dev.example.com TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true 
 ```
 
 
@@ -47,6 +49,7 @@ The generator does the following:
 - Generate proxy from the spec using [openapi2apigee](https://www.npmjs.com/package/openapi2apigee)
 - Apply global policies (optional)
 	- FC-Security policy to call the Security sharedflow. This is set to false (will be skipped)
+	- OAS-Validation policy to validate the request payload against the OpenAPI Spec specified
 	- FC-LogHandling policy to generate log object to push to your logging servers
 	- FC-FaultHanding policy to handle errors and exceptions
 	- RF-PathNotFound to handle catch-all flows to return a 404 not found
@@ -56,12 +59,12 @@ The generator does the following:
 
 ### Configurations
 
-Current configuration structure only contains `test` and `prod` environments. Please update this to your Apigee environments and include the appropriate config files. You can refer to the [plugin samples](https://github.com/apigee/apigee-config-maven-plugin/tree/master/samples/EdgeConfig/resources) for more details on the structure
+Current configuration structure only contains `test` and `prod` environments. Please update this to your Apigee environments and include the appropriate config files. You can refer to the [plugin samples](https://github.com/apigee/apigee-config-maven-plugin/tree/hybrid/samples/EdgeConfig/resources) for more details on the structure
 
 ### Execution
 
 Once the folder is generated, you can run 
->`mvn clean install -P{profile} -Dusername={username} -Dpassword={password} -Dorg={org}` 
+>`mvn clean install -P{profile} -Dfile={file} -Dorg={org}` 
 	
 It executes the following: 
 - Static Code Analysis
