@@ -1,0 +1,78 @@
+steps:
+- name: gcr.io/cloud-builders/git
+  id: variables
+  entrypoint: 'bash'
+  args:
+    - -c 
+    - |
+      # store multiple values as environment variables
+      # name all values with a common prefix (we'll use "build_")
+      if [ "$BRANCH_NAME" = "master" ]
+      then
+        export build_profile="test"
+      elif [ "$BRANCH_NAME" = "prod" ]
+      then
+        export build_profile="prod"
+      else
+        export build_profile="dev"
+      fi
+
+      export build_prefix="" 
+
+      # write all "build_" variables to the persistent volume "/workspace"
+      env | grep "^build_" > /workspace/build_vars
+- name: gcr.io/cloud-builders/gcloud
+  id: fetch-credentials
+  entrypoint: 'bash'
+  args: [ '-c', "gcloud secrets versions access latest --secret=apigee-org-admin --format='get(payload.data)' | tr '_-' '/+' | base64 -d > admin.json" ]
+- name: 'gcr.io/cloud-builders/npm'
+  id: install-npm-modules
+  args: ['install']
+- name: 'gcr.io/cloud-builders/nodejs/yarn'
+  id: apigee-lint
+  entrypoint: 'bash'
+  args: ['-c', 'node_modules/apigeelint/cli.js -s . -f table.js']
+- name: 'gcr.io/cloud-builders/nodejs/yarn'
+  id: unit-testing-and-code-coverage
+  entrypoint: 'bash'
+  args: ['-c', 'node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha test/unit']
+- name: 'gcr.io/cloud-builders/mvn'
+  id: process-resources
+  entrypoint: 'bash'
+  args:
+    - -c 
+    - |
+      # Read environment variables from disk
+      source /workspace/build_vars &&
+      mvn -f cloudbuild-pom.xml -ntp process-resources -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dcommit=$COMMIT_SHA -Dbranch=$BRANCH_NAME -Duser.name=cloudbuild
+- name: 'gcr.io/cloud-builders/mvn'
+  id: pre-deployment-configurations
+  entrypoint: 'bash'
+  args:
+    - -c 
+    - |
+      # Read environment variables from disk
+      source /workspace/build_vars &&
+      mvn -f cloudbuild-pom.xml -ntp apigee-config:targetservers -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dfile=admin.json
+- name: 'gcr.io/cloud-builders/mvn'
+  id: package
+  entrypoint: 'bash'
+  args:
+    - -c 
+    - |
+      # Read environment variables from disk
+      source /workspace/build_vars &&
+      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:configure -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix}
+- name: 'gcr.io/cloud-builders/mvn'
+  id: deploy
+  entrypoint: 'bash'
+  args:
+    - -c 
+    - |
+      # Read environment variables from disk
+      source /workspace/build_vars &&
+      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:deploy -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dfile=admin.json
+- name: 'gcr.io/cloud-builders/nodejs/yarn'
+  id: functional-testing
+  entrypoint: 'bash'
+  args: ['-c', 'node_modules/cucumber/bin/cucumber.js target/test/integration/features']
