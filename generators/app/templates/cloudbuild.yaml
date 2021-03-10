@@ -73,6 +73,10 @@ steps:
       source /workspace/build_vars &&
       mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:deploy -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dfile=admin.json
 - name: 'gcr.io/cloud-builders/nodejs/yarn'
+  id: devint-testing
+  entrypoint: 'bash'
+  args: ['-c', 'node_modules/mocha/bin/_mocha --recursive ./target/tests/dev-integration']
+- name: 'gcr.io/cloud-builders/nodejs/yarn'
   id: functional-testing
   entrypoint: 'bash'
   args: ['-c', 'node_modules/cucumber/bin/cucumber.js target/test/integration/features']

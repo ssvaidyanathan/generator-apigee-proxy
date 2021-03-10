@@ -94,13 +94,17 @@ module.exports = class extends Generator {
 	    this.log('Creating API Proxy bundle...');
 	    this.spawnCommandSync('openapi2apigee',
       		['generateApi', `${this.answers.name}-${this.answers.version}`, 
-      			'-s', this.answers.spec, '-d', this.answers.destination,
-      			'-v', this.answers.virtualHost]);
+      			'-s', this.answers.spec, '-d', this.answers.destination] );
       	var dir = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/openapi`;
   		if (!fs.existsSync(dir)){
 		    fs.mkdirSync(dir);
 		}
       	let api = await swaggerParseFn(this.answers.spec);
+      	//update servers with northboundDomain and basePath
+      	let servers = api.servers;
+      	for (var i = 0; i < servers.length; i++) {
+      		servers[i].url = `https://${this.answers.northboundDomain}${this.answers.basePath}`;
+      	}
       	var filepath = `${dir}/openapi.json`;
       	fs.writeFileSync(filepath, JSON.stringify(api, undefined, 2)); 
       	var openapiResourceDir = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/resources/oas`;
@@ -143,6 +147,16 @@ module.exports = class extends Generator {
 	    this.fs.commit(()=>{});
     }
 
+    removeVirtualhost(){
+    	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`);
+    	let doc = new dom().parseFromString(srcDocument);
+        let nodes = xpath.select("/ProxyEndpoint/HTTPProxyConnection/VirtualHost", doc);
+        doc.removeChild(nodes[0]); //default
+        doc.removeChild(nodes[1]); //secure
+	    this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`, doc.toString());
+	    this.fs.commit(()=>{});
+    }
+
     setTargetServer(){
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`);
     	let doc = new dom().parseFromString(srcDocument);
@@ -168,7 +182,7 @@ module.exports = class extends Generator {
     	}
 
     	this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`, xmlFormatter(doc.toString()));
-  			this.fs.commit(()=>{});
+  		this.fs.commit(()=>{});
     }
 
     copyConfigResources(){
@@ -229,6 +243,11 @@ module.exports = class extends Generator {
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Dockerfile`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
+	     this.fs.copyTpl(
+	        this.templatePath('README.md'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/README.md`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
 	     this.fs.commit(()=>{});
     }
 
@@ -280,7 +299,7 @@ module.exports = class extends Generator {
       			'-s', `${this.answers.destination}/${this.answers.name}-${this.answers.version}/openapi/openapi.json`,
       			'--scheme', 'https', 
       			'-w', `${this.answers.destination}/${this.answers.name}-${this.answers.version}/tests/dev-integration`,
-      			'--host', `api.acme.com${this.answers.basePath}`,
+      			'--host', `${this.answers.northboundDomain}${this.answers.basePath}`,
       			]);
       	this.log('Tests Generated');
     }
