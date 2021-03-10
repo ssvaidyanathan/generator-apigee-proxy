@@ -133,6 +133,7 @@
 									<directory>${project.root.dir}</directory>
 									<filtering>true</filtering>
 									<includes>
+										<include>resources/**</include>
 										<include>apiproxy/**</include>
 										<include>tests/integration/**</include>
 										<include>tests/dev-integration/**</include>
