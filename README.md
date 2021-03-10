@@ -53,7 +53,8 @@ The generator does the following:
 	- FC-LogHandling policy to generate log object to push to your logging servers
 	- FC-FaultHanding policy to handle errors and exceptions
 	- RF-PathNotFound to handle catch-all flows to return a 404 not found
-- update Basepath, Description, Virtual host, Target server
+- update Basepath, Description, Target server, openapi
+- remove Virtual hosts
 - Copy templates for configurations
 - Generate tests from the spec using [oatts](https://www.npmjs.com/package/oatts). Please note that these auto-generated tests will need to be modified to pass.
 
