@@ -26,7 +26,8 @@ module.exports = class extends Generator {
 	   this.argument("version", { type: String, required: false });
 	   this.argument("basePath", { type: String, required: false });
 	   this.argument("northboundDomain", { type: String, required: false });
-	   this.argument("targetServer", { type: String, required: false });
+	   //this.argument("targetServer", { type: String, required: false });
+	   this.argument("targetUrl", { type: String, required: false });
 	   this.argument("spec", { type: String, required: false });
 	   this.argument("destination", { type: String, required: false });
 	   this.argument("applyPolicies", { type: String, required: false });
@@ -62,11 +63,17 @@ module.exports = class extends Generator {
 				default: 'api.acme.com',
 				validate: validators.northboundDomain
 			},
-			{
+			/*{
 				type: 'input',
 				name: 'targetServer', 
 				message: "What is your proxy's targetServer? (comma separated)",
 				default: 'TS-Mock'
+			},*/
+			{
+				type: 'input',
+				name: 'targetUrl', 
+				message: "What is your proxy's target URL?",
+				default: 'https://mocktarget.apigee.net'
 			},
 			{
 				type: 'input',
@@ -101,10 +108,13 @@ module.exports = class extends Generator {
 		}
       	let api = await swaggerParseFn(this.answers.spec);
       	//update servers with northboundDomain and basePath
-      	let servers = api.servers;
+      	/*let servers = api.servers;
       	for (var i = 0; i < servers.length; i++) {
       		servers[i].url = `https://${this.answers.northboundDomain}${this.answers.basePath}`;
-      	}
+      	}*/
+      	api.servers = [{
+  			url: `https://${this.answers.northboundDomain}${this.answers.basePath}`
+  		}];
       	var filepath = `${dir}/openapi.json`;
       	fs.writeFileSync(filepath, JSON.stringify(api, undefined, 2)); 
       	var openapiResourceDir = `${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/resources/oas`;
@@ -161,6 +171,10 @@ module.exports = class extends Generator {
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`);
     	let doc = new dom().parseFromString(srcDocument);
     	
+    	let nodes = xpath.select("/TargetEndpoint/HTTPTargetConnection/URL", doc);
+    	nodes[0].textContent = this.answers.targetUrl;
+    	
+    	/*
     	//Remove <URL/>
     	let nodes = xpath.select("/TargetEndpoint/HTTPTargetConnection/URL", doc);
     	doc.removeChild(nodes[0]);
@@ -180,7 +194,7 @@ module.exports = class extends Generator {
     		let serverObj = doc.getElementsByTagName("Server")[i];
 			serverObj.setAttribute("name", targetServers[i].trim());
     	}
-
+		*/
     	this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`, xmlFormatter(doc.toString()));
   		this.fs.commit(()=>{});
     }
