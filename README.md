@@ -35,13 +35,13 @@ This should install a new yo generator called "Apigee Proxy"
 To run in non-interactive mode:
 
 ``` 
-yo apigee-proxy ${name} ${version} ${basepath} ${northboundDomain} ${targetServer} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}
+yo apigee-proxy ${name} ${version} ${basepath} ${northboundDomain} ${targetUrl} ${specFilePathOrURL} ${destinationDir} ${applyPoliciesBoolean}
 ```
 
 For example
 
 ``` 
-yo apigee-proxy MockTarget v1 /v1/mock api-dev.example.com TS-Mock https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true 
+yo apigee-proxy MockTarget v1 /v1/mock api-dev.example.com https://mocktarget.apigee.net https://raw.githubusercontent.com/apigee/api-platform-samples/master/default-proxies/helloworld/openapi/mocktarget.yaml . true 
 ```
 
 
