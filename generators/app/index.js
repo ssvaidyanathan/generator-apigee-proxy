@@ -6,8 +6,7 @@ const fs = require('fs');
 const fsy = require('fs-extra');
 const path = require('path');
 const xpath = require('xpath')
-const dom = require('xmldom').DOMParser;
-const xmlSerializer = require('xmldom').XMLSerializer;
+const { DOMParser } = require('@xmldom/xmldom')
 const xmlFormatter = require('xml-formatter');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ explicitArray: true });
@@ -141,7 +140,7 @@ module.exports = class extends Generator {
 
     setDescription(){
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/${this.answers.name}-${this.answers.version}.xml`);
-    	let doc = new dom().parseFromString(srcDocument);
+    	let doc = new DOMParser().parseFromString(srcDocument);
         let nodes = xpath.select("/APIProxy/Description", doc);
         nodes[0].textContent = "@description"; //will be used by pom to replace
 	    this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/${this.answers.name}-${this.answers.version}.xml`, doc.toString());
@@ -150,7 +149,7 @@ module.exports = class extends Generator {
 
     setBasePath(){
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`);
-    	let doc = new dom().parseFromString(srcDocument);
+    	let doc = new DOMParser().parseFromString(srcDocument);
         let nodes = xpath.select("/ProxyEndpoint/HTTPProxyConnection/BasePath", doc);
         nodes[0].textContent = this.answers.basePath;
 	    this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`, doc.toString());
@@ -159,7 +158,7 @@ module.exports = class extends Generator {
 
     removeVirtualhost(){
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/proxies/default.xml`);
-    	let doc = new dom().parseFromString(srcDocument);
+    	let doc = new DOMParser().parseFromString(srcDocument);
         let nodes = xpath.select("/ProxyEndpoint/HTTPProxyConnection/VirtualHost", doc);
         doc.removeChild(nodes[0]); //default
         doc.removeChild(nodes[1]); //secure
@@ -169,7 +168,7 @@ module.exports = class extends Generator {
 
     setTargetServer(){
     	let srcDocument = this.fs.read(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`);
-    	let doc = new dom().parseFromString(srcDocument);
+    	let doc = new DOMParser().parseFromString(srcDocument);
     	
     	let nodes = xpath.select("/TargetEndpoint/HTTPTargetConnection/URL", doc);
     	nodes[0].textContent = this.answers.targetUrl;
