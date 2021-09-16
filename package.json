@@ -28,5 +28,10 @@
 		"yeoman-generator": "^4.11.0",
 		"yeoman-option-or-prompt": "^2.0.1",
 		"oatts": "^1.6.0"
+	},
+	"devDependencies": {
+  		"set-value": ">=4.0.1",
+  		"jszip": ">=3.7.0",
+  		"glob-parent": ">=5.1.2"
 	}
 }
