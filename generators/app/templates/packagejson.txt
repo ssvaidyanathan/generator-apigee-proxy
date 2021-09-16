@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"devDependencies": {
 		"apickli": "^2.3.3",
-		"apigeelint": "^2.0.0",
+		"apigeelint": "^2.9.0",
 		"cucumber": "^6.0.5",
 		"prettyjson": "^1.2.1",
 		"xml2js": "^0.4.23",
@@ -17,8 +17,8 @@
 		"sinon": "^9.0.2"
 	},
 	"scripts": {
-		"lint": "apigeelint -s apiproxy -f table.js",
-		"test": "oatts generate -s ./openapi/openapi.json --host api.acme.com --scheme https -w ./tests/integration && mocha --recursive ./tests/integration"
+		"lint": "apigeelint -s apiproxy -f table.js -e TD002",
+		"generate-tests": "oatts generate -s ./openapi/openapi.json --host api.acme.com --scheme https -w ./tests/integration && mocha --recursive ./tests/integration"
 	}
 }
  
