@@ -242,8 +242,13 @@ module.exports = class extends Generator {
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.copyTpl(
-	        this.templatePath('.istanbul.yml'),
-	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.istanbul.yml`),
+	        this.templatePath('.eslintrc.yml'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.eslintrc.yml`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
+	     this.fs.copyTpl(
+	        this.templatePath('.eslintrc-jsc.yml'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.eslintrc-jsc.yml`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
 	     this.fs.copyTpl(

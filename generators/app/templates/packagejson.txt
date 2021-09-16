@@ -1,24 +1,26 @@
 {
 	"name": "apigee-<%= name %>-<%= version %>",
 	"version": "1.0.0",
-	"version": "1.0.0",
 	"devDependencies": {
-		"apickli": "^2.3.3",
+		"apickli": "^3.0.0",
 		"apigeelint": "^2.9.0",
-		"cucumber": "^6.0.5",
-		"prettyjson": "^1.2.1",
-		"xml2js": "^0.4.23",
-		"chakram": "^1.5.0",
-		"mocha": "^8.0.1",
-		"oatts": "^1.6.0",
-		"chai": "^4.2.0",
-		"chai-fuzzy": "^1.6.1",
-		"istanbul": "^0.4.5",
+		"@cucumber/cucumber": "^7.3.0",
+		"@cucumber/pretty-formatter": "1.0.0-alpha.1",
+		"eslint": "^7.0.0",
+		"eslint-config-google": "^0.14.0",
+		"eslint-config-prettier": "^6.11.0",
+		"chai": "^3",
+		"chai-fuzzy": "^1",
+		"mocha": "^7.2.0",
+		"nyc": "^15.1.0",
+		"prettier": "^2.0.5",
 		"sinon": "^9.0.2"
 	},
 	"scripts": {
-		"lint": "apigeelint -s apiproxy -f table.js -e TD002",
-		"generate-tests": "oatts generate -s ./openapi/openapi.json --host api.acme.com --scheme https -w ./tests/integration && mocha --recursive ./tests/integration"
+		"lint": "npm run eslint && npm run apigeelint",
+		"eslint": "eslint -c .eslintrc-jsc.yml --format json",
+		"apigeelint": "apigeelint -s apiproxy -f table.js -e TD002",
+		"test": "nyc mocha --recursive \"./test/dev-integration/*.js\""
 	}
 }
  

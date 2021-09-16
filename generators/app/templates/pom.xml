@@ -73,30 +73,6 @@
 
 		<plugins>
 
-			<!-- run jslint -->
-			<plugin>
-				<groupId>com.cj.jshintmojo</groupId>
-				<artifactId>jshint-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-					<execution>
-						<id>jslint</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>lint</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<version>2.4.3</version>
-					<directories>
-						<directory>apiproxy/resources/jsc</directory>
-					</directories>
-					<reporter>checkstyle</reporter>
-					<reportFile>target/jshint.html</reportFile>
-				</configuration>
-			</plugin>
-
 			<!-- copy the full apiproxy folder to target folder -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -247,21 +223,21 @@
 						<configuration>
 							<executable>npm</executable>
 							<commandlineArgs>
-								install
+								install --silent --no-fund
 							</commandlineArgs>
 						</configuration>
 					</execution>
-					<!-- apigeelint -->
+					<!-- lint -->
 					<execution>
-						<id>apigeelint</id>
+						<id>lint</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>node</executable>
+							<executable>npm</executable>
 							<commandlineArgs>
-								node_modules/apigeelint/cli.js -s . -f table.js
+								run lint
 							</commandlineArgs>
 						</configuration>
 					</execution>
