@@ -6,21 +6,18 @@
 		"apigeelint": "^2.9.0",
 		"@cucumber/cucumber": "^7.3.0",
 		"@cucumber/pretty-formatter": "1.0.0-alpha.1",
-		"eslint": "^7.0.0",
-		"eslint-config-google": "^0.14.0",
-		"eslint-config-prettier": "^6.11.0",
-		"chai": "^3",
-		"chai-fuzzy": "^1",
-		"mocha": "^7.2.0",
+		"chakram": "^1.5.0",
+		"mocha": "^8.0.1",
+		"chai": "^4.2.0",
+		"chai-fuzzy": "^1.6.1",
 		"nyc": "^15.1.0",
 		"prettier": "^2.0.5",
 		"sinon": "^9.0.2"
 	},
 	"scripts": {
-		"lint": "npm run eslint && npm run apigeelint",
-		"eslint": "eslint -c .eslintrc-jsc.yml --format json",
+		"lint": "npm run apigeelint",
 		"apigeelint": "apigeelint -s apiproxy -f table.js -e TD002",
-		"test": "nyc mocha --recursive \"./test/dev-integration/*.js\""
+		"unit-test": "nyc mocha --recursive \"./target/tests/dev-integration/*.js\"",
+		"integration-test": "cucumber-js target/tests/integration/features --publish-quiet -f @cucumber/pretty-formatter"
 	}
 }
- 

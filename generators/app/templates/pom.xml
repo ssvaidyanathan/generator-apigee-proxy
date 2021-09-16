@@ -61,12 +61,12 @@
 				<plugin>
 					<groupId>io.apigee.build-tools.enterprise4g</groupId>
 					<artifactId>apigee-edge-maven-plugin</artifactId>
-					<version>2.1.0</version>
+					<version>2.1.2</version>
 				</plugin>
 				<plugin>
 					<groupId>com.apigee.edge.config</groupId>
 			    	<artifactId>apigee-config-maven-plugin</artifactId>
-					<version>2.1.0</version>
+					<version>2.1.2</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -249,9 +249,9 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>node</executable>
+							<executable>npm</executable>
 							<commandlineArgs>
-								node_modules/mocha/bin/_mocha --recursive ./target/tests/dev-integration
+								run unit-test
 							</commandlineArgs>
 						</configuration>
 					</execution>
@@ -263,9 +263,9 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>node</executable>
+							<executable>npm</executable>
 							<commandlineArgs>
-								./node_modules/cucumber/bin/cucumber-js target/tests/integration/features --tags ${api.testtag} --format json:target/reports.json
+								run integration-test
 							</commandlineArgs>
 						</configuration>
 					</execution>
