@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"lint": "npm run apigeelint",
-		"apigeelint": "apigeelint -s apiproxy -f table.js -e TD002",
+		"apigeelint": "apigeelint --profile apigeex -s apiproxy -f table.js -e TD002",
 		"unit-test": "nyc mocha --recursive \"./target/tests/dev-integration/*.js\"",
 		"integration-test": "cucumber-js target/tests/integration/features --publish-quiet -f @cucumber/pretty-formatter"
 	}

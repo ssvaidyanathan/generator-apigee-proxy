@@ -274,7 +274,7 @@ module.exports = class extends Generator {
 	  	fs.readFile(filePath, function(err, data) {
 	  		parser.parseString(data, function (err, result) {
 	  			//Add FC-Security and OAS-Validation to Preflow - Request
-				result.ProxyEndpoint.PreFlow[0].Request[0] = [{"Step":{"Name": "CORS"}}, {"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}}, {"Step":{"Name": "OAS-Validation", "Condition":["request.verb != \"OPTIONS\""]}}];
+				result.ProxyEndpoint.PreFlow[0].Request[0] = [{"Step":{"Name": "CORS-VerifyOrigin"}}, {"Step":{"Name": "FC-Security", "Condition":["request.verb != \"OPTIONS\""]}}, {"Step":{"Name": "OAS-Validation", "Condition":["request.verb != \"OPTIONS\""]}}];
 				//Add FC-LogHandling to Postflow - Response
 				result.ProxyEndpoint.PostFlow[0].Response[0] = {"Step":{"Name": "FC-LogHandling"}};
 				//Add FC-FaultHandling to FaultRules
