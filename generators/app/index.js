@@ -172,7 +172,6 @@ module.exports = class extends Generator {
     	
     	let nodes = xpath.select("/TargetEndpoint/HTTPTargetConnection/URL", doc);
     	nodes[0].textContent = this.answers.targetUrl;
-    	
     	/*
     	//Remove <URL/>
     	let nodes = xpath.select("/TargetEndpoint/HTTPTargetConnection/URL", doc);
@@ -194,7 +193,7 @@ module.exports = class extends Generator {
 			serverObj.setAttribute("name", targetServers[i].trim());
     	}
 		*/
-    	this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`, xmlFormatter(doc.toString()));
+    	this.fs.write(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/apiproxy/targets/default.xml`, doc.toString());
   		this.fs.commit(()=>{});
     }
 
