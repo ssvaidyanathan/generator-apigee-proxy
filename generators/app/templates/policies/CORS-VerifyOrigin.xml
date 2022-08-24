@@ -4,7 +4,7 @@
     <AllowOrigins>{request.header.origin}</AllowOrigins>
     <AllowMethods>GET, PUT, POST, DELETE</AllowMethods>
     <AllowHeaders>origin, x-requested-with, accept, content-type, apikey</AllowHeaders>
-    <ExposeHeaders>*</ExposeHeaders>
+    <ExposeHeaders>Accept, Content-Type, Authorization</ExposeHeaders>
     <MaxAge>3628800</MaxAge>
     <AllowCredentials>true</AllowCredentials>
     <GeneratePreflightResponse>true</GeneratePreflightResponse>
