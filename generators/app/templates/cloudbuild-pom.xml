@@ -177,7 +177,7 @@
 						</replacement>
 						<replacement>
 							<token>api.acme.com</token>
-							<value><%= northboundDomain %></value>
+							<value>${api.northbound.domain}</value>
 						</replacement>
 					</replacements>
 				</configuration>
