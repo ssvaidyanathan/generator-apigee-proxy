@@ -53,6 +53,23 @@
 				<api.testtag>~@wip</api.testtag>
 			</properties>
 		</profile>
+		<!-- <profile>
+			<id>prod</id>
+			<properties>
+				<apigee.profile>prod</apigee.profile>
+				<apigee.env>prod</apigee.env>
+				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion>
+				<apigee.org>${org}</apigee.org>
+				<apigee.options>override</apigee.options>
+				<apigee.bearer>${bearer}</apigee.bearer>
+				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+				<apigee.config.options>update</apigee.config.options>
+				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
+				<api.northbound.domain><%= northboundDomain %></api.northbound.domain>
+				<api.testtag>~@wip</api.testtag>
+			</properties>
+		</profile> -->
 	</profiles>
 
 	<build>
@@ -61,12 +78,12 @@
 				<plugin>
 					<groupId>io.apigee.build-tools.enterprise4g</groupId>
 					<artifactId>apigee-edge-maven-plugin</artifactId>
-					<version>2.1.2</version>
+					<version>2.3.1</version>
 				</plugin>
 				<plugin>
 					<groupId>com.apigee.edge.config</groupId>
 			    	<artifactId>apigee-config-maven-plugin</artifactId>
-					<version>2.1.2</version>
+					<version>2.4.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -145,7 +162,7 @@
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
 				<artifactId>apigee-edge-maven-plugin</artifactId>
-				<version>2.1.2</version>
+				<version>2.3.1</version>
 				<executions>
 					<execution>
 						<id>configure-bundle-step</id>
@@ -168,7 +185,7 @@
 			<plugin>
 			    <groupId>com.apigee.edge.config</groupId>
 			    <artifactId>apigee-config-maven-plugin</artifactId>
-			    <version>2.1.2</version>
+			    <version>2.4.0</version>
 			    <executions>
 			        <execution>
 			            <id>create-config-kvm</id>
