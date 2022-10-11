@@ -23,7 +23,7 @@
 		"openapi2apigee": "^0.6.2",
 		"xml-formatter": "^2.1.3",
 		"xml2js": "^0.4.23",
-		"@xmldom/xmldom": "^0.7.4",
+		"@xmldom/xmldom": "^0.8.3",
 		"xpath": "0.0.27",
 		"yeoman-generator": "^4.11.0",
 		"yeoman-option-or-prompt": "^2.0.1",
