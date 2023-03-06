@@ -20,7 +20,7 @@
 	"license": "Apache-2.0",
 	"dependencies": {
 		"fs-extra": "^9.0.1",
-		"openapi2apigee": "^0.6.2",
+		"openapi2apigee": "^1.2.0",
 		"xml-formatter": "^2.1.3",
 		"xml2js": "^0.4.23",
 		"@xmldom/xmldom": "^0.7.4",
