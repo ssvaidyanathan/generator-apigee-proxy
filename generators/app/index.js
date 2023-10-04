@@ -230,11 +230,11 @@ module.exports = class extends Generator {
     }
 
     copyOtherTemplates(){
-    	// this.fs.copyTpl(
-	    //     this.templatePath('cloudbuild.yaml'),
-	    //     this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild.yaml`),
-	    //     {name : this.answers.name, version: this.answers.version}
-	    //  );
+    	this.fs.copyTpl(
+	        this.templatePath('cloudbuild.yaml'),
+	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild.yaml`),
+	        {name : this.answers.name, version: this.answers.version}
+	     );
 	     this.fs.copyTpl(
 	        this.templatePath('gitignore.txt'),
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.gitignore`),
