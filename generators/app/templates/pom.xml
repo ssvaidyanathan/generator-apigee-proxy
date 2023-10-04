@@ -37,10 +37,10 @@
 	<!-- For apigee.options, refer to "Advanced Configuration Options" under https://github.com/apigee/apigee-deploy-maven-plugin#pom-xml-sample -->
 	<profiles>
 		<profile>
-			<id>eval</id>
+			<id>dev</id>
 			<properties>
-				<apigee.profile>eval</apigee.profile>
-				<apigee.env>eval</apigee.env>
+				<apigee.profile>dev</apigee.profile>
+				<apigee.env>dev</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
@@ -53,7 +53,24 @@
 				<api.testtag>~@wip</api.testtag>
 			</properties>
 		</profile>
-		<!-- <profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<apigee.profile>test</apigee.profile>
+				<apigee.env>test</apigee.env>
+				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion>
+				<apigee.org>${org}</apigee.org>
+				<apigee.options>override</apigee.options>
+				<apigee.bearer>${bearer}</apigee.bearer>
+				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+				<apigee.config.options>update</apigee.config.options>
+				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
+				<api.northbound.domain><%= northboundDomain %></api.northbound.domain>
+				<api.testtag>~@wip</api.testtag>
+			</properties>
+		</profile>
+		<profile>
 			<id>prod</id>
 			<properties>
 				<apigee.profile>prod</apigee.profile>
@@ -69,7 +86,7 @@
 				<api.northbound.domain><%= northboundDomain %></api.northbound.domain>
 				<api.testtag>~@wip</api.testtag>
 			</properties>
-		</profile> -->
+		</profile>
 	</profiles>
 
 	<build>
@@ -78,12 +95,12 @@
 				<plugin>
 					<groupId>io.apigee.build-tools.enterprise4g</groupId>
 					<artifactId>apigee-edge-maven-plugin</artifactId>
-					<version>2.3.1</version>
+					<version>2.5.0</version>
 				</plugin>
 				<plugin>
 					<groupId>com.apigee.edge.config</groupId>
 			    	<artifactId>apigee-config-maven-plugin</artifactId>
-					<version>2.4.0</version>
+					<version>2.5.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -162,7 +179,7 @@
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
 				<artifactId>apigee-edge-maven-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>2.5.0</version>
 				<executions>
 					<execution>
 						<id>configure-bundle-step</id>
@@ -185,7 +202,7 @@
 			<plugin>
 			    <groupId>com.apigee.edge.config</groupId>
 			    <artifactId>apigee-config-maven-plugin</artifactId>
-			    <version>2.4.0</version>
+			    <version>2.5.0</version>
 			    <executions>
 			        <execution>
 			            <id>create-config-kvm</id>

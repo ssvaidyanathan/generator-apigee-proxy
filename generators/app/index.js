@@ -221,35 +221,35 @@ module.exports = class extends Generator {
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/pom.xml`),
 	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath, northboundDomain: this.answers.northboundDomain}
 	     );
-	     this.fs.copyTpl(
-	        this.templatePath('cloudbuild-pom.xml'),
-	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild-pom.xml`),
-	        {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath, northboundDomain: this.answers.northboundDomain}
-	     );
+	    //  this.fs.copyTpl(
+	    //     this.templatePath('cloudbuild-pom.xml'),
+	    //     this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild-pom.xml`),
+	    //     {name : this.answers.name, version: this.answers.version, basePath: this.answers.basePath, northboundDomain: this.answers.northboundDomain}
+	    //  );
 	     this.fs.commit(()=>{});
     }
 
     copyOtherTemplates(){
-    	this.fs.copyTpl(
-	        this.templatePath('cloudbuild.yaml'),
-	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild.yaml`),
-	        {name : this.answers.name, version: this.answers.version}
-	     );
+    	// this.fs.copyTpl(
+	    //     this.templatePath('cloudbuild.yaml'),
+	    //     this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/cloudbuild.yaml`),
+	    //     {name : this.answers.name, version: this.answers.version}
+	    //  );
 	     this.fs.copyTpl(
 	        this.templatePath('gitignore.txt'),
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/.gitignore`),
 	        {name : this.answers.name, version: this.answers.version}
 	     );
-	     this.fs.copyTpl(
-	        this.templatePath('Jenkinsfile'),
-	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Jenkinsfile`),
-	        {name : this.answers.name, version: this.answers.version}
-	     );
-	     this.fs.copyTpl(
-	        this.templatePath('Dockerfile'),
-	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Dockerfile`),
-	        {name : this.answers.name, version: this.answers.version}
-	     );
+	    //  this.fs.copyTpl(
+	    //     this.templatePath('Jenkinsfile'),
+	    //     this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Jenkinsfile`),
+	    //     {name : this.answers.name, version: this.answers.version}
+	    //  );
+	    //  this.fs.copyTpl(
+	    //     this.templatePath('Dockerfile'),
+	    //     this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/Dockerfile`),
+	    //     {name : this.answers.name, version: this.answers.version}
+	    //  );
 	     this.fs.copyTpl(
 	        this.templatePath('README.md'),
 	        this.destinationPath(`${this.answers.destination}/${this.answers.name}-${this.answers.version}/README.md`),
@@ -307,7 +307,7 @@ module.exports = class extends Generator {
       			'-s', `${this.answers.destination}/${this.answers.name}-${this.answers.version}/openapi/openapi.json`,
       			'--scheme', 'https', 
       			'-w', `${this.answers.destination}/${this.answers.name}-${this.answers.version}/tests/dev-integration`,
-      			'--host', `${this.answers.northboundDomain}${this.answers.basePath}`,
+      			'--host', `api.acme.com${this.answers.basePath}`,
       			]);
       	this.log('Tests Generated');
     }
